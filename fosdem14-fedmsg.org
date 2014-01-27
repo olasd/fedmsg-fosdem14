@@ -1,0 +1,187 @@
+#+Title: See your project pulse in real time with fedmsg
+#+Author: Nicolas Dandrimont - Pierre-Yves Chibon
+#+Email: olasd@debian.org -
+#+DATE: 02/02/2014
+
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
+#+OPTIONS: reveal_mathjax:t reveal_rolling_links:nil reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_THEME: debian
+#+REVEAL_TRANS: none
+
+* The problem with distro infra
+** Services are like people
+Dozens of services, developed by many people
+
+Each service has its own way of communicating with the rest of the world
+
+Meaning that a service that needs to interact (yep, that's all of them) will need to implement a bunch of communication systems
+
+** Debian infrastructure comms
+[[http://ftp-master.debian.org/][dak]], our archive software, uses emails and databases to communicate. Metadata is available in a RFC822 format, no real API (the DB is not public either)
+
+[[http://buildd.debian.org][wanna-build]], our build queue management software, polls a database every few minutes to know what needs to get built. No API outside of its database
+
+[[http://bugs.debian.org][debbugs]], our bug tracking system, works via email, stores its data in flat files, and exposes a read-only SOAP API
+
+SCM pushes in the distro-provided repos (on [[https://alioth.debian.org/][alioth]]) can trigger an IRC bot (KGB), some mails. No central notification mechanism
+
+** Fedora infra before fedmsg
+
+In the packaging pipeline: transition from service to service:
+
+- Either done by a developer
+- Or some ad-hoc hooks would trigger the next service in the pipeline
+
+…
+
+Not maintainable
+
+Adding new services is annoying (you need to touch everything)
+
+** Some kludges are available
+
+#+REVEAL_HTML: <h4>UDD (the Ultimate Debian Database)</h4>
+
+[[https://wiki.debian.org/UltimateDebianDatabase/][wiki page]]
+
+Contains a *snapshot* of a lot *of the databases* undelying the Debian infrastructure at a given time (even some Ubuntu bits)
+
+A lot of cron-triggered importers
+
+Useful for distro-wide QA purposes, not so much for real-time updates
+
+#+REVEAL: split
+
+#+REVEAL_HTML: <h4>The PTS (Package Tracking System)</h4>
+
+[[http://packages.qa.debian.org/]] (and [[http://pts.debian.net]])
+
+Cron-triggered updates on source packages
+
+Subscribe for *email updates* on a given packages
+
+Messages not uniform, contain some headers for filtering and machine parsing
+
+Not real-time
+
+* A proposed solution: fedmsg
+** What is fedmsg?
+
+[[http://jkeating.fedorapeople.org/lfnw-messaging-2009.pdf][Jesse Keating's talk]] in 2009 at NorthWest Linux Fest
+
+A *unified message bus*, reducing the coupling of interdependent services
+
+Services subscribe to one (or several) *message topic(s)*, register *callbacks*, and respond to *events*
+
+** What you get (almost) for free
+
+- A stream of data representing the infrastructure activity (stats)
+- De-coupling of interdependent services
+- Desktop notifications for devs
+- Live web dashboard of events
+- IRC feeds ([[irc://irc.freenode.net/fedora-fedmsg][#fedora-fedmsg]] @ freenode, [[irc://irc.debian.org/debian-fedmsg][#debian-fedmsg]] @ OFTC)
+- identi.ca and twitter accounts that get banned for flooding :-)
+
+** fedmsg inception
+
+First candidate: [[http://www.imatix.com/articles:whats-wrong-with-amqp][*AMQP*]]
+
+[[./images/reorganize-amqp-j5.png]]
+
+Issues:
+
+- SPOF at the central broker
+- brokers weren't very reliable
+
+#+REVEAL: split
+
+Actual message bus: [[http://zguide.zeromq.org/page:all][0mq]]
+
+[[./images/reorganize-0mq-overview.png]]
+
+No broker, each service binds to a port and starts publishing messages
+
+Other services connect to those ports and start consuming messages
+
+Advantages
+
+- No central broker
+- 100-fold speedup over AMQP
+
+#+REVEAL: split
+
+Main issue with a brokerless system: *service discovery*
+
+Three options
+
+- Writing a broker (→ hello SPOF)
+- Using DNS (most elegant solution)
+- Distribute a text file
+
+Fedora uses option #3, and the Debian GSoC student implemented option #2
+
+* Using the bus
+** Bus topology
+
+[[./images/topology.png]]
+
+
+** Message topics
+
+Event topics follow the rule:
+
+  org.distribution.ENV.SERVICE.OBJECT[.SUBOBJECT].EVENT
+
+Where:
+
+- ENV is one of *dev*, *stg*, or *production*.
+- SERVICE is something like *koji*, *bodhi*, *mentors*, …
+- OBJECT is something like *package*, *user*, or *tag*
+- SUBOBJECT is something like *owner* or *build* (in the case where OBJECT is *package*, for instance)
+- EVENT is a verb like *update*, *create*, or *complete*.
+
+** Publishing messages
+
+From python:
+
+#+BEGIN_SRC python
+import fedmsg
+fedmsg.publish(topic='testing', modname='test', msg={
+    'test': "Hello World",
+})
+#+END_SRC
+
+From the shell:
+
+#+BEGIN_SRC sh
+$ echo "Hello World." | fedmsg-logger --modname=git --topic=repo.update
+$ echo '{"a": 1}' | fedmsg-logger --json-input
+$ fedmsg-logger --message="This is a message."
+$ fedmsg-logger --message='{"a": 1}' --json-input
+#+END_SRC
+
+** Receiving messages
+
+From python:
+
+#+BEGIN_SRC python
+import fedmsg
+
+# Read in the config from /etc/fedmsg.d/
+config = fedmsg.config.load_config([], None)
+
+for name, endpoint, topic, msg in fedmsg.tail_messages(**config):
+    print topic, msg  # or use fedmsg.encoding.pretty_dumps(msg)
+#+END_SRC
+
+In the shell, you can use the fedmsg-tail command (demo time)
+
+** Goodies
+
+- All the stuff listed in [[What you get (almost) for free]] is implemented
+- Cryptographic message signing: either via X.509 (Fedora) or GnuPG (Debian, implemented during GSoC13)
+- Replay mechanism: detect if a message was missed (sequence id mismatch) and ask the sender for the remaining messages (implemented during GSoC13)
