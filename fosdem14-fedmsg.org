@@ -185,3 +185,82 @@ In the shell, you can use the fedmsg-tail command (demo time)
 - All the stuff listed in [[What you get (almost) for free]] is implemented
 - Cryptographic message signing: either via X.509 (Fedora) or GnuPG (Debian, implemented during GSoC13)
 - Replay mechanism: detect if a message was missed (sequence id mismatch) and ask the sender for the remaining messages (implemented during GSoC13)
+
+* The fedmsg environment
+** Overview
+
+- 14 apps I could count
+
+- System integration
+- Central communication system
+- History of the community
+- Stats on the community
+
+- Cool stuff / Secret plans
+
+** System integration
+
+- FAS 2 trac
+  - User applies on a group on FAS, fedmsg trigger a message, fas2trac
+    creates a ticket on a trac instance
+- koji stalker
+  - User builds a package on koji, upon sucess koji stalker starts a build
+    on another arch
+
+** Central communication system
+- fedora-news
+  - HTML5/JS mobile application to get the latest news on Fedora
+- Desktop-notification
+  - https://github.com/fedora-infra/fedmsg-notify
+
+[[./images/fedmsg-notify.png]]
+
+** History of the community
+
+- datanommer/datagrepper
+
+[[./images/datagrepper.png]]
+
+** Stats on the community (1)
+- Weekly overview  - thisweekinfedora.org
+
+[[./images/thisweekinfedora.png]]
+
+** Stats on the community (2)
+- Weekly ownership change
+
+[[./images/ownerhsip_change.png]]
+
+** Stats on the community (3)
+- Last successful rebuild of all the Fedora packages
+
+[[./images/last_build_log_m.png]]
+
+** Stats on the community (4)
+- Last activity of all the Fedora packagers
+
+[[./images/last_packager_log_m.png]]
+
+** Cool stuff (1)
+- Badges
+    More than 7000 users registered!!
+
+[[./images/badges.png]]
+
+** Cool stuffs (2)
+- FMN: FedMsg Notification
+
+[[./images/FMN.png]]
+
+** Cool stuffs / Secret plans (1)
+- Release monitoring
+    Distro agnostic
+
+[[./images/cnucnu.png]]
+
+** Cool stuffs / Secret plans (2)
+- Mirror push
+
+- fedora-mobile
+
+[[./images/fedora-mobile.png]]
