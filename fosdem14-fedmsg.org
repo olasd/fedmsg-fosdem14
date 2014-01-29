@@ -234,12 +234,12 @@ In the shell, you can use the fedmsg-tail command (demo time)
 ** Stats on the community (3)
 - Last successful rebuild of all the Fedora packages
 
-[[./images/last_build_log_m.png]]
+[[./images/last_build_log_m.jpg]]
 
 ** Stats on the community (4)
 - Last activity of all the Fedora packagers
 
-[[./images/last_packager_log_m.png]]
+[[./images/last_packager_log_m.jpg]]
 
 ** Cool stuff (1)
 - Badges
