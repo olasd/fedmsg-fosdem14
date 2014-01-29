@@ -243,6 +243,7 @@ In the shell, you can use the fedmsg-tail command (demo time)
 
 ** Cool stuff (1)
 - Badges
+
     More than 7000 users registered!!
 
 [[./images/badges.png]]
@@ -254,6 +255,7 @@ In the shell, you can use the fedmsg-tail command (demo time)
 
 ** Cool stuffs / Secret plans (1)
 - Release monitoring
+
     Distro agnostic
 
 [[./images/cnucnu.png]]
