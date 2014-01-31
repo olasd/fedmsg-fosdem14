@@ -196,7 +196,7 @@ In the shell, you can use the fedmsg-tail command (demo time)
 * The fedmsg environment
 ** Overview
 
-- 14 apps I could count
+- 14 apps (so far)
 
 - System integration
 - Central communication system
@@ -273,3 +273,11 @@ In the shell, you can use the fedmsg-tail command (demo time)
 - fedora-mobile
 
 [[./images/fedora-mobile.png]]
+
+
+* Conclusions & Questions
+
+** Questions ?
+
+[[./images/fosdem-poster.png]]
+
