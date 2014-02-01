@@ -81,10 +81,17 @@ Services subscribe to one (or several) *message topic(s)*, register *callbacks*,
 
 - A stream of data representing the infrastructure activity (stats)
 - De-coupling of interdependent services
-- Desktop notifications for devs
-- Live web dashboard of events
-- IRC feeds ([[irc://irc.freenode.net/fedora-fedmsg][#fedora-fedmsg]] @ freenode, [[irc://irc.debian.org/debian-fedmsg][#debian-fedmsg]] @ OFTC)
+- A unified, pluggable notification system, gathering all the events in yout project
+   - email
+   - irc
+   - mobile
+   - desktop
+   - ...
+- badge/achievement system
+- live web dashboard of events
+- full IRC feeds ([[irc://irc.freenode.net/fedora-fedmsg][#fedora-fedmsg]] @ freenode, [[irc://irc.debian.org/debian-fedmsg][#debian-fedmsg]] @ OFTC)
 - identi.ca and twitter accounts that get banned for flooding :-)
+- ...
 
 ** fedmsg inception
 
