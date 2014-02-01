@@ -1,6 +1,6 @@
 #+Title: See your project pulse in real time with fedmsg
 #+Author: Nicolas Dandrimont - Pierre-Yves Chibon
-#+Email: olasd@debian.org -
+#+Email: olasd@debian.org - pingou@pingoured.fr
 #+DATE: 02/02/2014
 
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:t reveal_control:t
