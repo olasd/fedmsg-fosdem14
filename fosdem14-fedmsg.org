@@ -134,15 +134,15 @@ Fedora uses option #3, and the Debian GSoC student implemented option #2
 
 Event topics follow the rule:
 
-  org.distribution.ENV.SERVICE.OBJECT[.SUBOBJECT].EVENT
+  org.distribution.@@html:<span style="color: #f0f">@@ENV@@html:</span>@@.@@html:<span style="color: #f00">@@SERVICE@@html:</span>@@.@@html:<span style="color: #ff0">@@OBJECT@@html:</span>@@[.@@html:<span style="color: #0f0">@@SUBOBJECT@@html:</span>@@].@@html:<span style="color: #0ff">@@EVENT@@html:</span>@@
 
 Where:
 
-- ENV is one of *dev*, *stg*, or *production*.
-- SERVICE is something like *koji*, *bodhi*, *mentors*, …
-- OBJECT is something like *package*, *user*, or *tag*
-- SUBOBJECT is something like *owner* or *build* (in the case where OBJECT is *package*, for instance)
-- EVENT is a verb like *update*, *create*, or *complete*.
+- @@html:<span style="color: #f0f">@@ENV@@html:</span>@@ is one of *dev*, *stg*, or *production*.
+- @@html:<span style="color: #f00">@@SERVICE@@html:</span>@@ is something like *koji*, *bodhi*, *mentors*, …
+- @@html:<span style="color: #ff0">@@OBJECT@@html:</span>@@ is something like *package*, *user*, or *tag*
+- @@html:<span style="color: #0f0">@@SUBOBJECT@@html:</span>@@ is something like *owner* or *build* (in the case where @@html:<span style="color: #ff0">@@OBJECT@@html:</span>@@ is *package*, for instance)
+- @@html:<span style="color: #0ff">@@EVENT@@html:</span>@@ is a verb like *update*, *create*, or *complete*.
 
 ** Publishing messages
 
