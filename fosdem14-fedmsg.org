@@ -277,7 +277,11 @@ In the shell, you can use the fedmsg-tail command (demo time)
 
 * Conclusions & Questions
 
+** Contacting us
+
+ - [[irc://irc.freenode.net/fedora-apps][#fedora-apps]] on irc.freenode.net
+ - [[https://admin.fedoraproject.org/mailman/listinfo/messaging-sig][messaging-sig@lists.fedoraproject.org]] mailing-list
+
 ** Questions ?
 
 [[./images/fosdem-poster.png]]
-
