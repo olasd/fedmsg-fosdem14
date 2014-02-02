@@ -95,7 +95,7 @@ Services subscribe to one (or several) *message topic(s)*, register *callbacks*,
 
 ** fedmsg inception
 
-First candidate: [[http://www.imatix.com/articles:whats-wrong-with-amqp][*AMQP*]]
+   First candidate: [[http://www.imatix.com/articles:whats-wrong-with-amqp][AMQP as implemented by *qpid*]]
 
 [[./images/reorganize-amqp-j5.png]]
 
