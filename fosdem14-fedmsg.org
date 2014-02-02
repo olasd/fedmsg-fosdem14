@@ -185,14 +185,13 @@ for name, endpoint, topic, msg in fedmsg.tail_messages(**config):
     print topic, msg  # or use fedmsg.encoding.pretty_dumps(msg)
 #+END_SRC
 
-In the shell, you can use the fedmsg-tail command (demo time)
+In the shell, you can use the fedmsg-tail command
 
 ** Goodies
 
 - All the stuff listed in [[What you get (almost) for free]] is implemented
 - Cryptographic message signing: either via X.509 (Fedora) or GnuPG (Debian, implemented during GSoC13)
 - Replay mechanism: detect if a message was missed (sequence id mismatch) and ask the sender for the remaining messages (implemented during GSoC13)
-
 * The fedmsg environment
 ** Overview
 
